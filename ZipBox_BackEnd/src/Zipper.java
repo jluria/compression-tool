@@ -1,16 +1,18 @@
 import java.io.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 public class Zipper
 {
+    private static final String FAIL_ERROR = "FAIL";
+
     public static String Zip(File toCompress)
     {
         int BAD_FILE = -1;
-        String FAIL_ERROR = "FAIL";
         String sourceFileName = toCompress.getName();
         String zipFileName;
-        String zipExt = "zip";
+        String zipExt = ".zip";
         int dotIndex = sourceFileName.lastIndexOf(".");
         byte[] bytes = new byte[1024];
         int size;
@@ -20,7 +22,7 @@ public class Zipper
         }
         else
         {
-            zipFileName = sourceFileName.substring(0, dotIndex + 1) + zipExt;
+            zipFileName = sourceFileName + zipExt;
         }
 
 
@@ -51,12 +53,12 @@ public class Zipper
 
     public static String Zip(File toCompress, File destination)
     {
-        String seperator = System.getProperty("file.separator");
+        String separator = System.getProperty("file.separator");
         int BAD_FILE = -1;
         String FAIL_ERROR = "FAIL";
         String sourceFileName = toCompress.getName();
         String zipFileName;
-        String zipExt = "zip";
+        String zipExt = ".zip";
         int dotIndex = sourceFileName.lastIndexOf(".");
         byte[] bytes = new byte[1024];
         int size;
@@ -66,7 +68,7 @@ public class Zipper
         }
         else
         {
-            zipFileName = destination.getPath()  + seperator + sourceFileName.substring(0, dotIndex + 1) + zipExt;
+            zipFileName = destination.getPath()  + separator + sourceFileName + zipExt;
         }
 
 
@@ -94,4 +96,36 @@ public class Zipper
         return zipFileName;
 
     }
+
+    public static String Unzip(File toDecompress, File destination)
+    {
+        byte[] bytes = new byte[1024];
+        int dotIndex = toDecompress.getName().lastIndexOf(".");
+        String restoreName = toDecompress.getName().substring(0,dotIndex);
+        try {
+            ZipInputStream zipIn = new ZipInputStream(new FileInputStream(toDecompress));
+            ZipEntry zipEntry = zipIn.getNextEntry();
+            while (zipEntry != null)
+            {
+                File decompFile = new File(destination, restoreName);
+                FileOutputStream fileOut = new FileOutputStream(decompFile);
+                int len;
+                while ((len = zipIn.read(bytes)) > 0)
+                {
+                    fileOut.write(bytes, 0, len);
+                }
+                fileOut.close();
+                return restoreName;
+            }
+            zipIn.closeEntry();
+            zipIn.close();
+
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            return FAIL_ERROR;
+        }
+        return destination.getAbsolutePath();
+    }
+
 }

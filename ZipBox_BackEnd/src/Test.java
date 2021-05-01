@@ -7,12 +7,17 @@ public class Test {
         File testFile = new File("C:\\Users\\Eric\\Desktop\\Java+\\Arrays.docx");
         String result = Zipper.Zip(testFile);
 
-        System.out.print(result);
 
         //test file compression with destination
         File location = new File("C:\\Users\\Eric\\Desktop");
         result = Zipper.Zip(testFile, location);
-        System.out.print(result);
+        System.out.println(result);
+
+        //test decompression and destination
+        File testFile2 = new File("C:\\Users\\Eric\\Desktop\\Arrays.docx.zip");
+
+        result = Zipper.Unzip(testFile2, location);
+        System.out.println(result);
 
 
 
