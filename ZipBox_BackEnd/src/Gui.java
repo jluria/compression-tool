@@ -16,14 +16,18 @@ class Gui implements ActionListener
     initGui();
   }
 
-    JTextField filePathField = new JTextField(30);
-    JTextField destFilePathField = new JTextField(30);
-    JTextField filePathField2 = new JTextField(30);
-    JTextField destFilePathField2 = new JTextField(30);
-    JTextArea resultFeedback = new JTextArea();
 
+  // Instantiate text fields at this scope, to make them available to our event handler
+  JTextField filePathField = new JTextField(30);
+  JTextField destFilePathField = new JTextField(30);
+  JTextField filePathField2 = new JTextField(30);
+  JTextField destFilePathField2 = new JTextField(30);
+  JTextArea resultFeedback = new JTextArea();
+
+  //method to initialize our gui
   public void initGui()
   {
+    // instantiate main window and set key properties
     JFrame mainWindow = new JFrame("Zipbox");
     mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     mainWindow.setSize(700,300);
@@ -31,9 +35,11 @@ class Gui implements ActionListener
     JPanel feedbackPanel = new JPanel();
     feedbackPanel.add(resultFeedback);
 
+    // provide instructions
     JLabel instructionText1 = new JLabel("Welcome to Zipbox. Whether you are looking to compress or decompress a file, simply enter");
     JLabel instructionText2 = new JLabel("a path to the file, and a desired destination path, in the corresponding fields above. Happy Zipping! :)");
 
+    // set up panel to include compression components
     JPanel compressionPanel = new JPanel();
     JPanel compressionPanel2 = new JPanel();
     JLabel compressLabel = new JLabel("Path to file to compress:");
@@ -47,6 +53,7 @@ class Gui implements ActionListener
     compressionPanel2.add(destFilePathField);
     compressionPanel2.add(compressButton);
 
+    // set up panel to include decompression components
     JPanel decompressionPanel = new JPanel();
     JPanel decompressionPanel2 = new JPanel();
     JLabel decompressLabel = new JLabel("Path to file to decompress:");
@@ -60,6 +67,7 @@ class Gui implements ActionListener
     decompressionPanel2.add(destFilePathField2);
     decompressionPanel2.add(decompressButton);
 
+    // add all the components to the main frame
     mainWindow.add(instructionText1);
     mainWindow.add(instructionText2);
     mainWindow.add(compressionPanel);
@@ -68,14 +76,17 @@ class Gui implements ActionListener
     mainWindow.add(decompressionPanel2);
     mainWindow.add(feedbackPanel);
 
+    // lastly, make a frame visible!
     mainWindow.setVisible(true);
   }
 
+  // event handler
   public void actionPerformed(ActionEvent e)
   {
     String source = e.getActionCommand();
     if(source == "Compress")
     {
+      // take user input text and instantiate files to be processed on back end
       File file = new File(filePathField.getText());
       File destFile = new File(destFilePathField.getText());
       String result = Zipper.Zip(file, destFile);
@@ -88,10 +99,11 @@ class Gui implements ActionListener
         resultFeedback.setForeground(Color.red);
       }
     } else {
+      // take user input text and instantiate files to be processed on back end
       File file = new File(filePathField2.getText());
       File destFile = new File(destFilePathField2.getText());
       String result = Zipper.Unzip(file, destFile);
-      if(result == "SUCCESS") 
+      if(result == "SUCCESS")
       {
         resultFeedback.setText("Decompression was a success!!!");
         resultFeedback.setForeground(new Color(0,102,0));
