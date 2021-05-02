@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.event.*;
-import zipbox.core.Zipper;
 
 class Gui implements ActionListener
 {
@@ -53,10 +52,7 @@ class Gui implements ActionListener
     if(source == "Compress")
     {
       String fp = filePathField.getText();
-      System.out.println(fp);
       Zipper.Zip(fp);
     }
-    //String text = source.getText();
-    System.out.println(source);
   }
 }

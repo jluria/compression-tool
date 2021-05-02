@@ -7,8 +7,9 @@ public class Zipper
 {
     private static final String FAIL_ERROR = "FAIL";
 
-    public static String Zip(File toCompress)
+    public static String Zip(String pathToCompress)
     {
+        File toCompress = new File(pathToCompress);
         int BAD_FILE = -1;
         String sourceFileName = toCompress.getName();
         String zipFileName;
