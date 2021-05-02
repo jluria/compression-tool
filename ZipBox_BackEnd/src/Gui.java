@@ -37,7 +37,7 @@ class Gui implements ActionListener
 
     // provide instructions
     JLabel instructionText1 = new JLabel("Welcome to Zipbox. Whether you are looking to compress or decompress a file, simply enter");
-    JLabel instructionText2 = new JLabel("a path to the file, and a desired destination path, in the corresponding fields above. Happy Zipping! :)");
+    JLabel instructionText2 = new JLabel("a path to the file, and a desired destination path, in the corresponding fields below. Happy Zipping! :)");
 
     // set up panel to include compression components
     JPanel compressionPanel = new JPanel();
