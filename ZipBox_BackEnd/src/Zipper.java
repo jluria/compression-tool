@@ -7,12 +7,52 @@ public class Zipper
 {
     private static final String FAIL_ERROR = "FAIL";
 
-    public static String Zip(String pathToCompress)
+    public static String Zip(File toCompress)
     {
-        File toCompress = new File(pathToCompress);
-        int slashIndex = pathToCompress.lastIndexOf("/");
-        String pathName = pathToCompress.substring(0, slashIndex);
-        File destination = new File(pathName);
+        int BAD_FILE = -1;
+        String sourceFileName = toCompress.getName();
+        String zipFileName;
+        String zipExt = ".zip";
+        int dotIndex = sourceFileName.lastIndexOf(".");
+        byte[] bytes = new byte[1024];
+        int size;
+        if (dotIndex == BAD_FILE)
+        {
+            return FAIL_ERROR;
+        }
+        else
+        {
+            zipFileName = sourceFileName + zipExt;
+        }
+
+
+        try
+        {
+            FileOutputStream fileOut = new FileOutputStream(zipFileName);
+            ZipOutputStream zipOut = new ZipOutputStream(fileOut);
+            FileInputStream fileIn = new FileInputStream(toCompress);
+            ZipEntry zipEntry = new ZipEntry(sourceFileName);
+            zipOut.putNextEntry(zipEntry);
+            while((size = fileIn.read(bytes)) >= 0)
+            {
+                zipOut.write(bytes, 0, size);
+            }
+            zipOut.close();
+            fileIn.close();
+            fileOut.close();
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return FAIL_ERROR;
+        }
+        return zipFileName;
+
+    }
+
+    public static String Zip(File toCompress, File destination)
+    {
         String separator = System.getProperty("file.separator");
         int BAD_FILE = -1;
         String FAIL_ERROR = "FAIL";
@@ -57,13 +97,8 @@ public class Zipper
 
     }
 
-    public static String Unzip(String pathToDecompress)
+    public static String Unzip(File toDecompress, File destination)
     {
-        File toDecompress = new File(pathToDecompress);
-        int slashIndex = pathToDecompress.lastIndexOf("/");
-        String restoreDestination = pathToDecompress.substring(0,slashIndex);
-        System.out.println(restoreDestination);
-        File destination = new File(restoreDestination);
         byte[] bytes = new byte[1024];
         int dotIndex = toDecompress.getName().lastIndexOf(".");
         String restoreName = toDecompress.getName().substring(0,dotIndex);
