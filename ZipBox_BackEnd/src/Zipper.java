@@ -6,6 +6,9 @@ import java.util.zip.ZipOutputStream;
 public class Zipper
 {
     private static final String FAIL_ERROR = "FAIL";
+    private static final String SUCCESS = "SUCCESS";
+
+    /*original file compression w/o destination
 
     public static String Zip(File toCompress)
     {
@@ -24,8 +27,6 @@ public class Zipper
         {
             zipFileName = sourceFileName + zipExt;
         }
-
-
         try
         {
             FileOutputStream fileOut = new FileOutputStream(zipFileName);
@@ -40,7 +41,6 @@ public class Zipper
             zipOut.close();
             fileIn.close();
             fileOut.close();
-
         }
         catch (IOException e)
         {
@@ -50,6 +50,10 @@ public class Zipper
         return zipFileName;
 
     }
+        return SUCCESS;
+    }
+
+     */
 
     public static String Zip(File toCompress, File destination)
     {
@@ -93,7 +97,7 @@ public class Zipper
             e.printStackTrace();
             return FAIL_ERROR;
         }
-        return zipFileName;
+        return SUCCESS;
 
     }
 
@@ -125,7 +129,7 @@ public class Zipper
             e.printStackTrace();
             return FAIL_ERROR;
         }
-        return destination.getAbsolutePath();
+        return SUCCESS;
     }
 
 }
