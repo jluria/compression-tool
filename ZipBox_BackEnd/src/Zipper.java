@@ -1,3 +1,10 @@
+
+/*
+Student:     Eric VonCannon
+Class:       CSC 251 201
+Assignment:  Group Project, Group 2
+Purpose:     Simple compression utility class
+*/
 import java.io.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -8,7 +15,10 @@ public class Zipper
     private static final String FAIL_ERROR = "FAIL";
     private static final String SUCCESS = "SUCCESS";
 
-    /*original file compression w/o destination
+
+    /*Compression method w/o destination
+      will place compressed file into active directory.
+     */
 
     public static String Zip(File toCompress)
     {
@@ -19,14 +29,21 @@ public class Zipper
         int dotIndex = sourceFileName.lastIndexOf(".");
         byte[] bytes = new byte[1024];
         int size;
+
+        //Returns FAIL_ERROR if file does not have an extension. i.e. is folder or directory.
         if (dotIndex == BAD_FILE)
         {
             return FAIL_ERROR;
         }
+
+        //Adds ".zip" extension to the filename
         else
         {
             zipFileName = sourceFileName + zipExt;
+
         }
+
+
         try
         {
             FileOutputStream fileOut = new FileOutputStream(zipFileName);
@@ -41,20 +58,22 @@ public class Zipper
             zipOut.close();
             fileIn.close();
             fileOut.close();
+
+
         }
         catch (IOException e)
         {
             e.printStackTrace();
             return FAIL_ERROR;
         }
-        return zipFileName;
-
-    }
         return SUCCESS;
+
     }
 
-     */
 
+    /* Recommended method for compressing and choosing compressed
+        file destination. Will work with Windows or Unix file paths.
+     */
     public static String Zip(File toCompress, File destination)
     {
         String separator = System.getProperty("file.separator");
@@ -100,7 +119,8 @@ public class Zipper
         return SUCCESS;
 
     }
-
+    // Decompression method. Returns result string to indicate success or failure
+    //
     public static String Unzip(File toDecompress, File destination)
     {
         byte[] bytes = new byte[1024];
