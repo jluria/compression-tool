@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.event.*;
+import java.awt.Color;
 import java.io.File;
 
 class Gui implements ActionListener
@@ -19,13 +20,19 @@ class Gui implements ActionListener
     JTextField destFilePathField = new JTextField(30);
     JTextField filePathField2 = new JTextField(30);
     JTextField destFilePathField2 = new JTextField(30);
+    JTextArea resultFeedback = new JTextArea();
 
   public void initGui()
   {
     JFrame mainWindow = new JFrame("Zipbox");
     mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    mainWindow.setSize(700,250);
+    mainWindow.setSize(700,300);
     mainWindow.setLayout(new FlowLayout());
+    JPanel feedbackPanel = new JPanel();
+    feedbackPanel.add(resultFeedback);
+
+    JLabel instructionText1 = new JLabel("Welcome to Zipbox. Whether you are looking to compress or decompress a file, simply enter");
+    JLabel instructionText2 = new JLabel("a path to the file, and a desired destination path, in the corresponding fields above. Happy Zipping! :)");
 
     JPanel compressionPanel = new JPanel();
     JPanel compressionPanel2 = new JPanel();
@@ -53,10 +60,13 @@ class Gui implements ActionListener
     decompressionPanel2.add(destFilePathField2);
     decompressionPanel2.add(decompressButton);
 
+    mainWindow.add(instructionText1);
+    mainWindow.add(instructionText2);
     mainWindow.add(compressionPanel);
     mainWindow.add(compressionPanel2);
     mainWindow.add(decompressionPanel);
     mainWindow.add(decompressionPanel2);
+    mainWindow.add(feedbackPanel);
 
     mainWindow.setVisible(true);
   }
@@ -68,11 +78,27 @@ class Gui implements ActionListener
     {
       File file = new File(filePathField.getText());
       File destFile = new File(destFilePathField.getText());
-      Zipper.Zip(file, destFile);
+      String result = Zipper.Zip(file, destFile);
+      if(result == "SUCCESS") 
+      {
+        resultFeedback.setText("Compression was a success!!!");
+        resultFeedback.setForeground(new Color(0,102,0));
+      } else {
+        resultFeedback.setText("Something went wrong when trying to compress the file :(");
+        resultFeedback.setForeground(Color.red);
+      }
     } else {
       File file = new File(filePathField2.getText());
       File destFile = new File(destFilePathField2.getText());
-      Zipper.Unzip(file, destFile);
+      String result = Zipper.Unzip(file, destFile);
+      if(result == "SUCCESS") 
+      {
+        resultFeedback.setText("Decompression was a success!!!");
+        resultFeedback.setForeground(new Color(0,102,0));
+      } else {
+        resultFeedback.setText("Something went wrong when trying to decompress the file :(");
+        resultFeedback.setForeground(Color.red);
+      }
     }
   }
 }
