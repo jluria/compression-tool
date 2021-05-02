@@ -98,8 +98,13 @@ public class Zipper
 
     }
 
-    public static String Unzip(File toDecompress, File destination)
+    public static String Unzip(String pathToDecompress)
     {
+        File toDecompress = new File(pathToDecompress);
+        int slashIndex = pathToDecompress.lastIndexOf("/");
+        String restoreDestination = pathToDecompress.substring(0,slashIndex);
+        System.out.println(restoreDestination);
+        File destination = new File(restoreDestination);
         byte[] bytes = new byte[1024];
         int dotIndex = toDecompress.getName().lastIndexOf(".");
         String restoreName = toDecompress.getName().substring(0,dotIndex);

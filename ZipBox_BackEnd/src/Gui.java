@@ -15,6 +15,7 @@ class Gui implements ActionListener
   }
 
     JTextField filePathField = new JTextField(30);
+    JTextField filePathField2 = new JTextField(30);
 
   public void initGui()
   {
@@ -34,8 +35,9 @@ class Gui implements ActionListener
 
     JPanel decompressionPanel = new JPanel();
     JLabel decompressLabel = new JLabel("Path to file to decompress:");
-    JTextField filePathField2 = new JTextField(30);
     JButton decompressButton = new JButton("Decompress");
+    decompressButton.addActionListener(this);
+
     decompressionPanel.add(decompressLabel);
     decompressionPanel.add(filePathField2);
     decompressionPanel.add(decompressButton);
@@ -53,6 +55,9 @@ class Gui implements ActionListener
     {
       String fp = filePathField.getText();
       Zipper.Zip(fp);
+    } else {
+      String fp = filePathField2.getText();
+      Zipper.Unzip(fp);
     }
   }
 }
